@@ -2,7 +2,8 @@
 
 	<swiper class="home-swiper" :current="activeIndex" @change="swiperChange">
 		<swiper-item v-for="(item,index) in tabs" :key="index" class="swiper-item">
-			<list-item :list="listCatchData[index]"></list-item>
+			<list-item :list="listCatchData[index]" :load="load[index]" @loadmore="loadmore"></list-item>
+
 		</swiper-item>
 
 	</swiper>
@@ -27,7 +28,9 @@
 		data() {
 			return {
 				list: [],
-				listCatchData:{}
+				listCatchData: {},
+				load: {},
+				pageSize: 10
 			};
 		},
 		components: {
@@ -36,32 +39,64 @@
 		watch: {
 			tabs(newVals) {
 				if (newVals.length === 0) return
-				console.log("测试tab")
+				this.listCatchData = {}
+				this.load = {}
 				this.getList(0)
 			}
 		},
 		created() {
-			
+
 		},
 		methods: {
 			swiperChange(e) {
 				const {
 					current
 				} = e.detail
-				console.log(this.tabs[current].name)
-				this.getList(current)
+
+				// 当数据不存在 或数据长度为0的情况下才去请求数据
+				if (!this.listCatchData[current] || this.listCatchData[current].length === 0) {
+					this.getList(current)
+				}
 				this.$emit('change', current)
 			},
 			getList(current) {
-				this.$api.get_list({name:this.tabs[current].name}).then(res => {
-					const {data} = res
+				if (!this.load[current]) {
+					this.load[current] = {
+						page: 1,
+						loading: 'loading'
+					}
+				}
+
+				this.$api.get_list({
+					name: this.tabs[current].name,
+					page: this.load[current].page,
+					pageSize: this.pageSize
+				}).then(res => {
+					const {
+						data
+					} = res
 					// this.listCatchData[current] = data;
 					// 如果想要动态的在template 获取数据，则需要使用下面方法
-					this.$set(this.listCatchData,current,data)
-					console.log("测试一下数据")
-					console.log(this.listCatchData)
+					if (data.length === 0) {
+						let oldLoad = {}
+						oldLoad.loading = 'noMore'
+						oldLoad.page = this.load[current].page
+						this.$set(this.load, current, oldLoad)
+						this.$forceUpdate()
+						return;
+					}
+					let oldList = this.listCatchData[current] || []
+					oldList.push(...data)
+					this.$set(this.listCatchData, current, oldList)
+					console.log(res)
 				});
 			},
+			loadmore() {
+				if (this.load[this.activeIndex].loading === 'noMore') return
+				this.load[this.activeIndex].page++
+				console.log("触发上拉事件")
+				this.getList(this.activeIndex)
+			}
 
 		}
 	}

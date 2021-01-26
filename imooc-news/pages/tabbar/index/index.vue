@@ -24,6 +24,13 @@
 		},
 		onLoad() {
 			this.getLabel()
+			
+			uni.$on('labelChange',(res) => {
+				this.tabList = []
+				this.tabIndex = 0
+				this.activeIndex = 0
+				this.getLabel()
+			})
 		},
 		methods: {
 			getLabel() {
@@ -38,10 +45,12 @@
 			
 			tab(item, index) {
 				this.activeIndex = index
+				
 			},
 			change(current) {
 				console.log(current)
 				this.tabIndex = current
+				this.activeIndex = current
 			}
 		}
 	}

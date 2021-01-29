@@ -6,24 +6,24 @@
 			</view>
 
 			<view class="comments-header__info">
-				
+
 				<view v-if="!comments.is_reply" class="title">{{comments.author.author_name}}</view>
 				<view v-else class="title">{{comments.author.author_name}}<text class="reply-text">回复</text>{{comments.to}}</view>
-				<view>{{comments.create_time}}</view>
+				<view>{{comments.create_time | formatTime}}</view>
 			</view>
 		</view>
 
 		<view class="comments-content">
 			<view>{{comments.comment_content}}</view>
-			
+
 			<view class="comments-info">
 				<view class="comments-button" @click="commentReply({comments,is_reply:reply})">回复</view>
 			</view>
-			
+
 			<view class="comments-reply" v-for="(item, index) in comments.replys" :key="item.comment_id">
 				<comment-box :reply="true" :comments="item" @reply="commentReply"></comment-box>
 			</view>
-			
+
 		</view>
 
 	</view>
@@ -31,9 +31,13 @@
 
 <script>
 	import commentBox from '@/components/comment-box/comment-box.vue'
+	import {
+		parseTime
+	} from '@/utils/index.js'
+
 	export default {
-		name:"comment-box",
-		components:{
+		name: "comment-box",
+		components: {
 			commentBox
 		},
 		props: {
@@ -43,9 +47,9 @@
 					return {}
 				}
 			},
-			reply:{
-				type:Boolean,
-				default:false
+			reply: {
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {
@@ -53,17 +57,22 @@
 
 			};
 		},
-		methods:{
+		filters: {
+			formatTime(time) {
+				return parseTime(time)
+			}
+		},
+		methods: {
 			commentReply(comments) {
 				// 为了区分主回复 还是子回复
-				if(comments.is_reply) {
+				if (comments.is_reply) {
 					comments.comments.reply_id = comments.comments.comment_id
 					comments.comments.comment_id = this.comments.comment_id
 				}
-				this.$emit('reply',comments)
+				this.$emit('reply', comments)
 			}
 		}
-		
+
 	}
 </script>
 
@@ -99,11 +108,12 @@
 					margin-bottom: 10px;
 					font-size: 14px;
 					color: #333;
+
 					.reply-text {
 						margin: 0 10px;
 						font-size: 12px;
 						font-weight: bold;
-						
+
 					}
 				}
 			}
@@ -113,10 +123,12 @@
 			margin-top: 10px;
 			font-size: 14px;
 			color: #000;
+
 			.comments-info {
 				margin-top: 15px;
 				display: flex;
-				.comments-button{
+
+				.comments-button {
 					padding: 2px 10px;
 					font-size: 12px;
 					color: #999;
@@ -124,14 +136,14 @@
 					border: 1px #ccc solid;
 				}
 			}
-			
-			.comments-reply{
+
+			.comments-reply {
 				display: flex;
 				margin: 15px 0;
 				padding: 0 10px;
 				border: 1px #eee solid;
 			}
-			
+
 		}
 	}
 </style>

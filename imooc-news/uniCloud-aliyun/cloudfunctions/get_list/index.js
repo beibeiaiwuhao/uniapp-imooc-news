@@ -18,10 +18,8 @@ exports.main = async (event, context) => {
 			classify: name
 		}
 	}
-	console.log("测试一下"+user_id)
 	const userinfo = await db.collection('user').doc(user_id).get()
 	const article_likes_ids = userinfo.data[0].article_likes_ids
-	console.log(article_likes_ids)
 	const list = await db.collection('article')
 		.aggregate()
 		// 追加字段

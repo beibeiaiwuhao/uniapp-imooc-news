@@ -45,7 +45,14 @@
 			}
 		},
 		created() {
-
+			uni.$on('update_article',(e) => {
+				console.log(e)
+				if (e === 'follow') {
+					this.listCatchData = {}
+					this.load = {}
+					this.getList(this.activeIndex)
+				}
+			})
 		},
 		methods: {
 			swiperChange(e) {
@@ -82,6 +89,7 @@
 						oldLoad.loading = 'noMore'
 						oldLoad.page = this.load[current].page
 						this.$set(this.load, current, oldLoad)
+						// 强制渲染页面
 						this.$forceUpdate()
 						return;
 					}

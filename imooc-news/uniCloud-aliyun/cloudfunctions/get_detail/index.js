@@ -19,7 +19,7 @@ exports.main = async (event, context) => {
 			//是否收藏文章
 			is_like: $.in(['$id', userInfo.article_likes_ids]),
 			//是否点赞
-			is_thumbs_up: $.in(['$_id', userInfo.thumbs_up_article_ids])
+			is_thumbs_up: $.in(['$id', userInfo.thumbs_up_article_ids])
 		})
 		// 筛选id
 		.match({

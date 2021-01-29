@@ -12,7 +12,7 @@
             "path" : "pages/tabbar/follow/follow",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "关注",
                 "enablePullDownRefresh": false
             }
             
@@ -21,7 +21,7 @@
             "path" : "pages/tabbar/my/my",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "我的",
                 "enablePullDownRefresh": false
             }
             
@@ -54,6 +54,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/detail-comments/detail-comments",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "评论列表",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -80,7 +89,7 @@
 		{
 			"pagePath":"pages/tabbar/my/my",
 			"iconPath":"static/my.png",
-			"selectedIconPath":"static/my.png",
+			"selectedIconPath":"static/my-active.png",
 			"text":"我的"
 		}
 		]

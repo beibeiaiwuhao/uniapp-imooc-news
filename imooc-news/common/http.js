@@ -1,10 +1,12 @@
+import store  from '../store/index.js'
 export default function $http(options) {
+
 	const {
 		url,
 		data
-	} = options
+	} = options	
 	const dataObj = {
-		user_id:"5fffff71a811400001d9042a",
+		user_id:store.state.userinfo._id,
 		...data
 	}
 	return new Promise((resolve, reject) => {

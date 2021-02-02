@@ -29,7 +29,8 @@ exports.main = async (event, context) => {
 		.project({
 			content:0
 		})
-		.match(matchObj).project({
+		.match(matchObj)
+		.project({
 			content: false
 		})
 		.skip(pageSize * (page - 1))

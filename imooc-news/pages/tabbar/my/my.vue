@@ -32,7 +32,7 @@
 		</view>
 
 		<view class="my-content">
-			<view class="my-content__list">
+			<view class="my-content__list"  @click="open">
 				<view class="my-content__list-title">
 					<uni-icons class="icons" type="contact" size="16" color="#666"> </uni-icons>
 					<text>我的文章</text>
@@ -40,7 +40,7 @@
 				<uni-icons type="arrowright" size="14" color="#666"></uni-icons>
 			</view>
 
-			<view class="my-content__list">
+			<view class="my-content__list"  @click="feedback">
 				<view class="my-content__list-title">
 					<uni-icons type="help" size="16" color="#666"> </uni-icons>
 					<text>意见反馈</text>
@@ -70,6 +70,18 @@
 			console.log(this.userinfo)
 		},
 		methods: {
+			open() {
+				uni.navigateTo({
+					url:"/pages/my-article/my-article"
+				})
+			},
+			
+			feedback(){
+				uni.navigateTo({
+					url:'/pages/feedback/feedback'
+				})
+			}
+			
 		}
 	}
 </script>

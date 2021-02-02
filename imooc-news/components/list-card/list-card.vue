@@ -93,22 +93,6 @@
 					thumbs_up_count: item.thumbs_up_count,
 					author:item.author
 				}
-				
-				/*
-				classify: "后端开发",
-				collection_count: 93
-				comments_count: 15
-				cover: Array(7)
-				create_time: "2019.12.19 12:04"
-				id: "298045"
-				is_like: true
-				mode: "column"
-				title: "重塑程序员职业发展观"
-				_id: "5fffff6e4d4a960001b25092"
-				*/ 
-				
-				console.log(item)
-				
 				uni.navigateTo({
 					url:'/pages/home-detail/home-detail?params='+JSON.stringify(params)
 				})

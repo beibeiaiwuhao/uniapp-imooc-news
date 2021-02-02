@@ -6,7 +6,7 @@
 		<tab :list="tabList" :tabIndex="tabIndex" @tab="tab"></tab>
 
 		<view class="home-list">
-			<list :tabs="tabList" :activeIndex="activeIndex"  @change="change"></list>
+			<list :tabs="tabList" :activeIndex="activeIndex" @change="change"></list>
 		</view>
 
 
@@ -14,18 +14,28 @@
 	</view>
 </template>
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
 				tabList: [],
-				tabIndex:0,
-				activeIndex:0
+				tabIndex: 0,
+				activeIndex: 0
+			}
+		},
+		computed: {
+			...mapState(['userinfo'])
+			
+		},
+		watch:{
+			userinfo(newVals) {
+				this.getLabel()
 			}
 		},
 		onLoad() {
-			this.getLabel()
-			
-			uni.$on('labelChange',(res) => {
+			uni.$on('labelChange', (res) => {
 				this.tabList = []
 				this.tabIndex = 0
 				this.activeIndex = 0
@@ -35,17 +45,19 @@
 		methods: {
 			getLabel() {
 				this.$api.get_label().then((res) => {
-					const {data} = res;
+					const {
+						data
+					} = res;
 					data.unshift({
-						name:'全部'
+						name: '全部'
 					})
 					this.tabList = res.data
 				});
 			},
-			
+
 			tab(item, index) {
 				this.activeIndex = index
-				
+
 			},
 			change(current) {
 				console.log(current)

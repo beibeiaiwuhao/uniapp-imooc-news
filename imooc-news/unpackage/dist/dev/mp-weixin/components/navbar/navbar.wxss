@@ -81,6 +81,7 @@
   margin-right: 10px;
 }
 .navbar .navbar-fixed .navbar-content .navbar-search .navbar-search_text {
+  width: 100%;
   font-size: 12px;
   color: #999;
 }
